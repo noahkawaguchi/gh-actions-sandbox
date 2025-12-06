@@ -73,6 +73,8 @@ jobs:
             type=sha
             type=raw,value=latest
 
+      - uses: docker/setup-buildx-action@v3 # Necessary for caching functionality
+
       - uses: docker/build-push-action@v6
         with:
           push: true
