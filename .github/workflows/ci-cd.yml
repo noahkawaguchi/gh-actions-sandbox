@@ -16,7 +16,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@nightly
         with: { components: rustfmt }
       - uses: Swatinem/rust-cache@v2
-      - run: cargo fmt --check
+      - run: cargo fmt --all --check
 
   lint:
     runs-on: ubuntu-24.04-arm
@@ -26,7 +26,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@1.91.1
         with: { components: clippy }
       - uses: Swatinem/rust-cache@v2
-      - run: cargo clippy
+      - run: cargo clippy --workspace --all-targets --all-features
 
   spell-check:
     runs-on: ubuntu-24.04-arm
@@ -42,7 +42,7 @@ jobs:
         with: { persist-credentials: false }
       - uses: dtolnay/rust-toolchain@1.91.1
       - uses: Swatinem/rust-cache@v2
-      - run: cargo test
+      - run: cargo test --workspace --all-targets --all-features
 
   all-checks:
     runs-on: ubuntu-24.04-arm
