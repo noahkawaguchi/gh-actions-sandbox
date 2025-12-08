@@ -42,17 +42,11 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - run: cargo test --workspace --all-targets --all-features
 
-  all-checks:
-    runs-on: ubuntu-24.04-arm
-    needs: [format-check, lint, spell-check, test]
-    steps:
-      - run: echo "All checks passed!"
-
   # Always builds the Docker image (with caching), but only pushes it to GHCR if the workflow was
   # triggered by a push to main. Publishes both a commit hash tag and a latest tag.
   container-image:
     runs-on: ubuntu-24.04-arm
-    needs: [all-checks]
+    needs: [format-check, lint, spell-check, test]
     permissions: { packages: write }
 
     steps:
