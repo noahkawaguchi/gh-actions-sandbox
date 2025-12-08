@@ -79,10 +79,3 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-  deploy:
-    runs-on: ubuntu-24.04-arm
-    needs: [push-image]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    steps:
-      - run: echo "Deployment would happen now!"
