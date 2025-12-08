@@ -6,8 +6,6 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  # ==== CI ====
-
   format-check:
     runs-on: ubuntu-24.04-arm
     steps:
@@ -50,12 +48,11 @@ jobs:
     steps:
       - run: echo "All checks passed!"
 
-  # ==== CD ====
-
-  push-image:
+  # Always builds the Docker image (with caching), but only pushes it to GHCR if the workflow was
+  # triggered by a push to main. Publishes both a commit hash tag and a latest tag.
+  container-image:
     runs-on: ubuntu-24.04-arm
     needs: [all-checks]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     permissions: { packages: write }
 
     steps:
@@ -77,14 +74,8 @@ jobs:
 
       - uses: docker/build-push-action@v6
         with:
-          push: true
+          # Only push the image when pushing to main
+          push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-  deploy:
-    runs-on: ubuntu-24.04-arm
-    needs: [push-image]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    steps:
-      - run: echo "Deployment would happen now!"
