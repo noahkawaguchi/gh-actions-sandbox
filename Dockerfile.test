@@ -7,11 +7,11 @@ COPY Cargo.toml Cargo.lock ./
 RUN mkdir src \
   && echo "fn main() {}" > src/main.rs \
   && cargo test --no-run --workspace --all-targets \
-  && rm -rf src
+  && rm -rf src target/debug/deps/gh_actions_sandbox-* \
+                target/debug/.fingerprint/gh-actions-sandbox-*
 
 # Copy the real code
 COPY src src
-RUN touch src/*
 
 ENTRYPOINT ["cargo", "test"]
 CMD ["--frozen", "--workspace", "--all-targets"]
