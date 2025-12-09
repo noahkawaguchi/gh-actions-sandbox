@@ -1,0 +1,17 @@
+FROM rust:1.91.1-alpine3.22
+
+WORKDIR /test
+
+# Pre-build dependencies so they're cached even if the app code changes
+COPY Cargo.toml Cargo.lock ./
+RUN mkdir src \
+  && echo "fn main() {}" > src/main.rs \
+  && cargo test --no-run --workspace --all-targets \
+  && rm -rf src target/debug/deps/gh_actions_sandbox-* \
+                target/debug/.fingerprint/gh-actions-sandbox-*
+
+# Copy the real code
+COPY src src
+
+ENTRYPOINT ["cargo", "test"]
+CMD ["--frozen", "--workspace", "--all-targets"]

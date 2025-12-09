@@ -24,7 +24,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@1.91.1
         with: { components: clippy }
       - uses: Swatinem/rust-cache@v2
-      - run: cargo clippy --workspace --all-targets --all-features
+      - run: cargo clippy --workspace --all-targets
 
   spell-check:
     runs-on: ubuntu-24.04-arm
@@ -35,12 +35,28 @@ jobs:
 
   test:
     runs-on: ubuntu-24.04-arm
+    env:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: test_db
+
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6 # Necessary for the final run step
         with: { persist-credentials: false }
-      - uses: dtolnay/rust-toolchain@1.91.1
-      - uses: Swatinem/rust-cache@v2
-      - run: cargo test --workspace --all-targets --all-features
+
+      - uses: docker/setup-buildx-action@v3 # Necessary for caching in build-push-action
+
+      - uses: docker/build-push-action@v6
+        with:
+          file: Dockerfile.test
+          load: true # Make image available to local Docker daemon
+          tags: ${{ github.event.repository.name }}-test:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - run: >
+          docker compose -p ${{ github.event.repository.name }}
+          -f docker-compose.test.yml run test
 
   # Always builds the Docker image (with caching), but only pushes it to GHCR if the workflow was
   # triggered by a push to main. Publishes both a commit hash tag and a latest tag.
