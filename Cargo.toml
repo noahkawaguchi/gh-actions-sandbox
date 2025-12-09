@@ -14,3 +14,4 @@ unwrap_used = "forbid"
 expect_used = "forbid"
 
 [dependencies]
+rand = "0.9.2"
