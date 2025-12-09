@@ -1,4 +1,12 @@
 {
   "useGitignore": true,
-  "words": ["clippy", "dtolnay", "Swatinem", "buildx"]
+  "words": [
+    "clippy",
+    "dtolnay",
+    "Swatinem",
+    "buildx",
+    "healthcheck",
+    "isready",
+    "dotenv"
+  ]
 }
