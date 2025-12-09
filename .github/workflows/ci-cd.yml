@@ -51,8 +51,8 @@ jobs:
           file: Dockerfile.test
           load: true # Make image available to local Docker daemon
           tags: ${{ github.event.repository.name }}-test:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=gha,scope=test
+          cache-to: type=gha,mode=max,scope=test
 
       - run: >
           docker compose -p ${{ github.event.repository.name }}
