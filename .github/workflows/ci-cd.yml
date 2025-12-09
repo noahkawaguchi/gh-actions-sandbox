@@ -46,6 +46,8 @@ jobs:
 
       - uses: docker/setup-buildx-action@v3 # Necessary for caching in build-push-action
 
+      - run: docker pull rust:1.91.1-alpine3.22 # Attempt to improve caching
+
       - uses: docker/build-push-action@v6
         with:
           file: Dockerfile.test
