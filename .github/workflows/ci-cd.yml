@@ -55,7 +55,7 @@ jobs:
 
       - run: >
           docker compose -p ${{ github.event.repository.name }}
-            -f docker-compose.test.yml run test
+          -f docker-compose.test.yml run test
 
   # Always builds the Docker image (with caching), but only pushes it to GHCR if the workflow was
   # triggered by a push to main. Publishes both a commit hash tag and a latest tag.
