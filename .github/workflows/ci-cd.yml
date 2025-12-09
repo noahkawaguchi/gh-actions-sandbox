@@ -41,6 +41,8 @@ jobs:
       POSTGRES_DB: test_db
 
     steps:
+      - uses: actions/checkout@v6 # Necessary for the final run step
+
       - uses: docker/setup-buildx-action@v3 # Necessary for caching in build-push-action
 
       - uses: docker/build-push-action@v6
@@ -53,7 +55,7 @@ jobs:
 
       - run: >
           docker compose -p ${{ github.event.repository.name }}
-          -f docker-compose.test.yml run test
+            -f docker-compose.test.yml run test
 
   # Always builds the Docker image (with caching), but only pushes it to GHCR if the workflow was
   # triggered by a push to main. Publishes both a commit hash tag and a latest tag.
