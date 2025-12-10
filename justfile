@@ -12,6 +12,7 @@ test:
         docker rm -f {{test-db-name}}; sleep 3; fi
     docker run --rm --name {{test-db-name}} --env-file .env -p {{test-db-port}}:5432 -d \
         postgres:{{pg-tag}}
+    until docker exec {{test-db-name}} pg_isready > /dev/null 2>&1; do sleep 1; done
     DATABASE_URL={{test-db-url}} cargo test --workspace --all-targets
     docker stop {{test-db-name}} > /dev/null 2>&1 &
 
