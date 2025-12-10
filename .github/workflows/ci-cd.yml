@@ -35,12 +35,29 @@ jobs:
 
   test:
     runs-on: ubuntu-24.04-arm
+
+    services:
+      postgres:
+        image: postgres:18.0-alpine3.22
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: test_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports: [5432:5432]
+
     steps:
       - uses: actions/checkout@v6
         with: { persist-credentials: false }
       - uses: dtolnay/rust-toolchain@1.91.1
       - uses: Swatinem/rust-cache@v2
       - run: cargo test --workspace --all-targets
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
 
   # Always builds the Docker image (with caching), but only pushes it to GHCR if the workflow was
   # triggered by a push to main. Publishes both a commit hash tag and a latest tag.
