@@ -47,7 +47,7 @@ jobs:
 
       - name: Check spelling
         run: |
-          "$RUNNER_TEMP/codebook-lsp" lint $(fdfind --hidden --exclude .git --type file)
+          fdfind --hidden --exclude .git --type file --exec-batch "$RUNNER_TEMP/codebook-lsp" lint
 
   test:
     runs-on: ubuntu-24.04-arm
