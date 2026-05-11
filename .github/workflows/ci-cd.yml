@@ -33,7 +33,7 @@ jobs:
         with: { persist-credentials: false }
       - run: |
           sudo apt-get update
-          sudo apt-get install -y fd-find tar
+          sudo apt-get install -y fd-find
           curl -L https://github.com/blopker/codebook/releases/download/v0.3.39/codebook-lsp-aarch64-unknown-linux-musl.tar.gz | tar -xz
           ./codebook-lsp lint $(fdfind -HE .git -t f)
 
