@@ -5,6 +5,7 @@ words = [
     "fdfind",
     "gha",
     "isready",
+    "justfile",
     "rustfmt",
     "swatinem",
 ]
