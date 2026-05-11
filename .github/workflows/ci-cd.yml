@@ -41,7 +41,7 @@ jobs:
           CODEBOOK_SHA256: 38302c6e719ce67083e9229c373943ebe45aa359a7a2cfb06e48221c33b59516
         run: |
           cd "$RUNNER_TEMP"
-          curl -Lo codebook.tar.gz "https://github.com/blopker/codebook/releases/download/${CODEBOOK_VERSION}/codebook-lsp-aarch64-unknown-linux-musl.tar.gz"
+          curl -fsSLo codebook.tar.gz "https://github.com/blopker/codebook/releases/download/${CODEBOOK_VERSION}/codebook-lsp-aarch64-unknown-linux-musl.tar.gz"
           echo "$CODEBOOK_SHA256  codebook.tar.gz" | sha256sum -c
           tar -xzf codebook.tar.gz
 
