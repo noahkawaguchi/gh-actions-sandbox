@@ -1,0 +1,11 @@
+words = [
+    "clippy",
+    "dotenv",
+    "dtolnay",
+    "fdfind",
+    "gha",
+    "isready",
+    "rustfmt",
+    "swatinem",
+]
+ignore_paths = ["Cargo.lock"]
