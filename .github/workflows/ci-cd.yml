@@ -31,11 +31,9 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with: { persist-credentials: false }
-      - run: |
-          sudo apt-get update
-          sudo apt-get install -y fd-find
-          curl -L https://github.com/blopker/codebook/releases/download/v0.3.39/codebook-lsp-aarch64-unknown-linux-musl.tar.gz | tar -xz
-          ./codebook-lsp lint $(fdfind --hidden --exclude .git --type file)
+      - run: sudo apt-get update && sudo apt-get install -y fd-find
+      - run: curl -L https://github.com/blopker/codebook/releases/download/v0.3.39/codebook-lsp-aarch64-unknown-linux-musl.tar.gz | tar -xz
+      - run: ./codebook-lsp lint $(fdfind --hidden --exclude .git --type file)
 
   test:
     runs-on: ubuntu-24.04-arm
