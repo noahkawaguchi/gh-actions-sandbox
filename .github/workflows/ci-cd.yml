@@ -34,9 +34,10 @@ jobs:
       - name: Install fd
         run: sudo apt-get update && sudo apt-get install -y fd-find
       - name: Download Codebook
-        run: curl -L https://github.com/blopker/codebook/releases/download/v0.3.39/codebook-lsp-aarch64-unknown-linux-musl.tar.gz | tar -xz
+        run: curl -L https://github.com/blopker/codebook/releases/download/v0.3.39/codebook-lsp-aarch64-unknown-linux-musl.tar.gz | tar -xz -C "$RUNNER_TEMP"
       - name: Check spelling
-        run: ./codebook-lsp lint $(fdfind --hidden --exclude .git --type file)
+        run: |
+          "$RUNNER_TEMP/codebook-lsp" lint $(fdfind --hidden --exclude .git --type file)
 
   test:
     runs-on: ubuntu-24.04-arm
