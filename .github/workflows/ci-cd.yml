@@ -40,14 +40,14 @@ jobs:
           CODEBOOK_VERSION: v0.3.39
           CODEBOOK_SHA256: 38302c6e719ce67083e9229c373943ebe45aa359a7a2cfb06e48221c33b59516
         run: |
-          cd "$RUNNER_TEMP"
-          curl -fsSLo codebook.tar.gz "https://github.com/blopker/codebook/releases/download/${CODEBOOK_VERSION}/codebook-lsp-aarch64-unknown-linux-musl.tar.gz"
-          echo "$CODEBOOK_SHA256  codebook.tar.gz" | sha256sum -c
+          cd "${RUNNER_TEMP:?}"
+          curl -fsSLo codebook.tar.gz "https://github.com/blopker/codebook/releases/download/${CODEBOOK_VERSION:?}/codebook-lsp-aarch64-unknown-linux-musl.tar.gz"
+          echo "${CODEBOOK_SHA256:?}  codebook.tar.gz" | sha256sum -c
           tar -xzf codebook.tar.gz
 
       - name: Check spelling
         run: |
-          git ls-files -z | xargs -0 "$RUNNER_TEMP/codebook-lsp" lint
+          git ls-files -z | xargs -0 "${RUNNER_TEMP:?}/codebook-lsp" lint
 
   test:
     runs-on: ubuntu-24.04-arm
