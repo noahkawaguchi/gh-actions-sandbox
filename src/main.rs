@@ -1,13 +1,15 @@
 mod math;
 
 fn main() {
-    println!("Hello, world!");
-
-    let (x, y) = (2, 3);
-
+    let (x, y) = (2, 6);
     println!("{x} + {y} = {}", math::add(x, y));
 
-    let num = math::random_number_le(90);
+    // Lint check: manual midpoint
+    // let mid = (x + y) / 2;
+    // println!("midpoint of {x} and {y} is {mid}");
+    let mid = x.midpoint(y);
+    println!("midpoint of {x} and {y} is {mid}");
 
+    let num = math::random_number_le(90);
     println!("{num} <= 90");
 }
