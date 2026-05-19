@@ -5,8 +5,8 @@ fn main() {
     println!("{x} + {y} = {}", math::add(x, y));
 
     // Lint check: manual midpoint
-    let mid = (x + y) / 2;
-    println!("midpoint of {x} and {y} is {mid}");
+    // let mid = (x + y) / 2;
+    // println!("midpoint of {x} and {y} is {mid}");
     let mid = x.midpoint(y);
     println!("midpoint of {x} and {y} is {mid}");
 
