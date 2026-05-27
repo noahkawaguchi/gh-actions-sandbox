@@ -1,5 +1,7 @@
 name: CI/CD
 
+permissions: { contents: read }
+
 on:
   push: { branches: [main] }
   pull_request: { branches: [main] }
@@ -8,7 +10,6 @@ on:
 jobs:
   format-check:
     runs-on: ubuntu-24.04-arm
-    permissions: { contents: read }
     steps:
       - uses: actions/checkout@v6
         with: { persist-credentials: false }
@@ -19,7 +20,6 @@ jobs:
 
   lint:
     runs-on: ubuntu-24.04-arm
-    permissions: { contents: read }
     steps:
       - uses: actions/checkout@v6
         with: { persist-credentials: false }
@@ -30,7 +30,6 @@ jobs:
 
   spell-check:
     runs-on: ubuntu-24.04-arm
-    permissions: { contents: read }
     steps:
       - uses: actions/checkout@v6
         with: { persist-credentials: false }
@@ -51,7 +50,6 @@ jobs:
 
   test:
     runs-on: ubuntu-24.04-arm
-    permissions: { contents: read }
 
     services:
       postgres:
