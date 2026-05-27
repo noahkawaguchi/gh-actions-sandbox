@@ -1,17 +1,18 @@
 [package]
-name = "gh-actions-sandbox"
+name    = "gh-actions-sandbox"
 version = "0.1.0"
 edition = "2024"
 
-[lints.rust]
-unsafe_code = "forbid"
-
-[lints.clippy]
-all = { level = "warn", priority = -1 }
-pedantic = { level = "warn", priority = -1 }
-nursery = { level = "warn", priority = -1 }
-unwrap_used = "forbid"
-expect_used = "forbid"
-
 [dependencies]
 rand = "0.10.1"
+
+[lints.clippy]
+all      = { level = "warn", priority = -1 }
+nursery  = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+
+expect_used = "forbid"
+unwrap_used = "forbid"
+
+[lints.rust]
+unsafe_code = "forbid"
