@@ -6,8 +6,11 @@ test-db-port := "2345"
 test-db-url := "postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@localhost:" \
                + test-db-port + "/$POSTGRES_DB"
 
-# Run tests using an ephemeral Postgres container
+# Run tests using an ephemeral Postgres container (default recipe)
 test:
+    #!/usr/bin/env bash
+    trap 'just test-clean' EXIT
+
     if docker inspect {{test-db-name}} >/dev/null 2>&1; then \
         docker rm -f {{test-db-name}}; sleep 3; fi
     docker run --rm --name {{test-db-name}} --env-file .env -p {{test-db-port}}:5432 -d \
@@ -16,7 +19,8 @@ test:
     DATABASE_URL={{test-db-url}} cargo test --workspace --all-targets
     docker stop {{test-db-name}} > /dev/null 2>&1 &
 
-# Manually stop the test database container
+# Stop the test database container
+[private]
 test-clean:
     docker stop {{test-db-name}}
 
