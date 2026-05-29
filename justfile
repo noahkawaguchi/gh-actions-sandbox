@@ -19,3 +19,12 @@ test:
 # Manually stop the test database container
 test-clean:
     docker stop {{test-db-name}}
+
+# Lint with Clippy (denying warnings)
+lint *ARGS:
+    cargo clippy --workspace --all-targets {{ ARGS }} -- --deny warnings
+
+# Lint for aarch64-unknown-linux-gnu, x86_64-unknown-linux-gnu, and aarch64-apple-darwin
+lint-matrix: (lint '--target' 'aarch64-unknown-linux-gnu') \
+             (lint '--target' 'x86_64-unknown-linux-gnu') \
+             (lint '--target' 'aarch64-apple-darwin')
