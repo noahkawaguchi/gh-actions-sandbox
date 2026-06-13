@@ -1,6 +1,6 @@
 set dotenv-load := true
 
-pg-tag := "18.3-alpine3.23" # Should match the tag in `ci-cd.yml`
+pg-tag := "18.4-alpine3.23" # Should match the tag in `ci-cd.yml`
 test-db-name := "sandbox_test_db"
 test-db-port := "2345"
 test-db-url := "postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@localhost:" \
