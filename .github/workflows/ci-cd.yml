@@ -82,12 +82,25 @@ jobs:
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
 
+  toml-check:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v6
+        with: { persist-credentials: false }
+      - uses: tombi-toml/setup-tombi@v1.1.3
+        with:
+          archive-checksum: b00f85e6d3d7c0df6effd7fadb50d3bf06f9487ee314eb5aa71e28d6b6f847f4
+      - name: Lint TOML
+        run: tombi lint --error-on-warnings
+      - name: Format check TOML
+        run: tombi format --check --diff
+
   # Always builds the Docker image (with caching), but only pushes it to GHCR if the workflow was
   # triggered by a push to main. Publishes both a commit hash tag and a latest tag.
   container-image:
     runs-on: ubuntu-24.04-arm
     permissions: { packages: write }
-    needs: [format-check, lint, spell-check, test]
+    needs: [format-check, lint, spell-check, test, toml-check]
 
     steps:
       - uses: docker/setup-buildx-action@v3 # Necessary for caching in build-push-action
