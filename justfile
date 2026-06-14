@@ -11,18 +11,18 @@ test:
     #!/usr/bin/env bash
     trap 'just test-clean' EXIT
 
-    if docker inspect {{test-db-name}} >/dev/null 2>&1; then \
-        docker rm -f {{test-db-name}}; sleep 3; fi
-    docker run --rm --name {{test-db-name}} --env-file .env -p {{test-db-port}}:5432 -d \
-        postgres:{{pg-tag}}
-    until docker exec {{test-db-name}} pg_isready > /dev/null 2>&1; do sleep 1; done
+    if docker inspect {{ test-db-name }} >/dev/null 2>&1; then \
+        docker rm -f {{ test-db-name }}; sleep 3; fi
+    docker run --rm --name {{ test-db-name }} --env-file .env -p {{ test-db-port }}:5432 -d \
+        postgres:{{ pg-tag }}
+    until docker exec {{ test-db-name }} pg_isready > /dev/null 2>&1; do sleep 1; done
     DATABASE_URL={{test-db-url}} cargo test --workspace --all-targets
-    docker stop {{test-db-name}} > /dev/null 2>&1 &
+    docker stop {{ test-db-name }} > /dev/null 2>&1 &
 
 # Stop the test database container
 [private]
 test-clean:
-    docker stop {{test-db-name}}
+    docker stop {{ test-db-name }}
 
 # Lint with Clippy (denying warnings)
 lint *ARGS:
