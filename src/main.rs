@@ -2,7 +2,11 @@ mod math;
 
 fn main() {
     let (x, y) = (2, 6);
-    println!("{x} + {y} = {}", math::add(x, y));
+
+    match math::try_add(x, y) {
+        Ok(z) => println!("{x} + {y} = {z}"),
+        Err(e) => println!("Oh no! {e}"),
+    }
 
     // Lint check: manual midpoint
     // let mid = (x + y) / 2;
