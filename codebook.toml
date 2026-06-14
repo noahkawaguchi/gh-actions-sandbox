@@ -8,7 +8,9 @@ words = [
     "justfile",
     "rustfmt",
     "swatinem",
+    "tombi",
     "xzf",
 ]
-ignore_paths = ["Cargo.lock"]
+
+ignore_paths    = ["Cargo.lock"]
 ignore_patterns = ['\b[a-fA-F0-9]{64}\b']
