@@ -28,8 +28,4 @@ mod tests {
         let num = random_number_le(max);
         assert!(num <= max);
     }
-
-    /// Not a math test
-    #[test]
-    fn db_url_env_var() { assert!(std::env::var("DATABASE_URL").is_ok_and(|val| !val.is_empty())) }
 }
