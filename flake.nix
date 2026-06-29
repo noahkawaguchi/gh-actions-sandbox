@@ -28,6 +28,11 @@
                   "rust-analyzer"
                   "clippy"
                 ];
+                targets = [
+                  "aarch64-unknown-linux-gnu"
+                  "x86_64-unknown-linux-gnu"
+                  "aarch64-apple-darwin"
+                ];
               })
 
               just
