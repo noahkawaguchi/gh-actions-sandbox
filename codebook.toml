@@ -1,16 +1,24 @@
 words = [
     "clippy",
+    "direnv",
     "dotenv",
     "dtolnay",
+    "envrc",
     "fdfind",
     "gha",
     "isready",
     "justfile",
+    "nixos",
+    "nixpkgs",
+    "oxalica",
+    "pkgs",
     "rustfmt",
     "swatinem",
     "tombi",
     "xzf",
 ]
-
-ignore_paths    = ["Cargo.lock"]
+ignore_paths = [
+    "Cargo.lock",
+    "flake.lock",
+]
 ignore_patterns = ['\b[a-fA-F0-9]{64}\b']
