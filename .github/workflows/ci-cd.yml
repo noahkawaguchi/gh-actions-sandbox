@@ -64,7 +64,7 @@ jobs:
       - *nix-install
       - *nix-cache
       - name: Check spelling
-        run: nix develop --command git ls-files -z | xargs -0 codebook-lsp lint
+        run: nix develop --command bash -c 'git ls-files -z | xargs -0 codebook-lsp lint'
 
   test:
     strategy:
