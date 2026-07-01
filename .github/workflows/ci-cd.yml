@@ -77,16 +77,16 @@ jobs:
       - *nix-develop
       - *rust-cache
       - name: Run lints
-        run: cargo clippy --workspace --all-targets -- --deny warnings
+        run: just lint
 
-  format-check:
+  fmt-check:
     runs-on: ubuntu-24.04-arm
     steps:
       - *checkout
       - *nix-install
       - *nix-cache
       - name: Check formatting
-        run: nix develop --command cargo fmt --all --check
+        run: nix develop --command just fmt-check
 
   spell-check:
     runs-on: ubuntu-24.04-arm
@@ -95,14 +95,14 @@ jobs:
       - *nix-install
       - *nix-cache
       - name: Check spelling
-        run: nix develop --command bash -c 'git ls-files -z | xargs -0 codebook-lsp lint'
+        run: nix develop --command just spell-check
 
   # Always builds the Docker image (with caching), but only pushes it to GHCR if the workflow was
   # triggered by a push to main. Publishes both a commit hash tag and a latest tag.
   container-image:
     runs-on: ubuntu-24.04-arm
     permissions: { packages: write }
-    needs: [test, lint, format-check, spell-check]
+    needs: [test, lint, fmt-check, spell-check]
 
     steps:
       - uses: docker/setup-buildx-action@v3 # Necessary for caching in build-push-action
