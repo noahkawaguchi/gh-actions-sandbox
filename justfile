@@ -23,17 +23,22 @@ test-db-url := 'postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@localhost:' \
                + test-db-port + '/$POSTGRES_DB'
 
 # Run tests using an ephemeral Postgres container (default recipe)
-test:
+test *ARGS:
     #!/usr/bin/env bash
     trap 'just test-clean' EXIT
 
     if docker inspect {{ test-db-name }} >/dev/null 2>&1; then \
-        docker rm -f {{ test-db-name }}; sleep 3; fi
+        docker rm -f {{ test-db-name }}; sleep 3; \
+    fi
     docker run --rm --name {{ test-db-name }} --env-file .env -p {{ test-db-port }}:5432 -d \
         postgres:{{ pg-tag }}
     until docker exec {{ test-db-name }} pg_isready > /dev/null 2>&1; do sleep 1; done
-    DATABASE_URL={{test-db-url}} cargo test --workspace --all-targets
-    docker stop {{ test-db-name }} > /dev/null 2>&1 &
+    DATABASE_URL={{test-db-url}} just test-only {{ ARGS }}
+
+# Inner test helper with no setup/teardown (factored out for CI)
+[private]
+test-only *ARGS:
+    cargo test --workspace --all-targets {{ ARGS }}
 
 # Stop the test database container
 [private]
