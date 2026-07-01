@@ -11,7 +11,7 @@ pg-tag := '18.4-alpine3.23' # Should match the tag in `ci-cd.yml`
 ####################################################################################################
 
 # Run tests, lints, format checking, and spell checking to match CI (default recipe)
-all-checks: test lint fmt-check spell-check
+all-checks: (test '--quiet') lint fmt-check spell-check
 
 ####################################################################################################
 # Testing
